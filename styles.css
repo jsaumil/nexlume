@@ -393,40 +393,173 @@ nav {
 
 /* Brands Section */
 .brands {
-    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-black) 100%);
-    padding: 5rem 5%;
+    background: linear-gradient(135deg, #0E5F78 0%, #111111 100%);
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.brands::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(244,180,0,0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.brands-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.brands-header {
     text-align: center;
+    padding: 0 5%;
+    margin-bottom: 3.5rem;
+}
+
+.brands-header .section-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    color: #F4B400;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
 }
 
 .brands-title {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: var(--color-light);
-    margin-bottom: 3rem;
+    font-size: 2.8rem;
+    color: #F5F7FA;
+    margin-bottom: 0.75rem;
 }
 
-.brands-grid {
+.brands-subtitle {
+    color: rgba(245,247,250,0.6);
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+}
+
+/* Conveyor container — clips the scrolling track */
+.brands-conveyor {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* The scrolling track — CSS animation drives it */
+.brands-track {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 3rem;
+    gap: 2rem;
+    width: max-content;
+    animation: conveyor 40s linear infinite;
+}
+
+.brands-track:hover {
+    animation-play-state: paused;  /* pause on hover */
+}
+
+@keyframes conveyor {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* slides back to start (duplicate set) */
+}
+
+/* Individual brand tile */
+.brand-tile {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 0.8rem;
+    flex-shrink: 0;
+    width: 220px;    /* 2 tiles visible on ~480px viewport, wider on desktop */
+    cursor: default;
 }
 
-.brand-item {
-    font-size: 1.8rem;
-    color: var(--color-light);
+/* White pill background for logos */
+.brand-logo-wrap {
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid rgba(244,180,0,0.2);
+    width: 200px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.brand-tile:hover .brand-logo-wrap {
+    transform: translateY(-6px) scale(1.04);
+    border-color: #F4B400;
+    box-shadow: 0 16px 40px rgba(244,180,0,0.25);
+}
+
+.brand-logo-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+.brand-tile-name {
+    font-size: 0.82rem;
     font-weight: 600;
-    padding: 1.5rem 2.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(245, 182, 52, 0.4);
-    transition: all 0.3s ease;
+    color: rgba(245,247,250,0.7);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
 }
 
-.brand-item:hover {
-    background: rgba(245, 182, 52, 0.15);
-    border-color: var(--color-gold);
-    transform: scale(1.05);
+.brand-tile:hover .brand-tile-name {
+    color: #F4B400;
+}
+
+/* Soft fade edges so tiles disappear smoothly */
+.conveyor-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.conveyor-fade--left {
+    left: 0;
+    background: linear-gradient(to right, #0E5F78, transparent);
+}
+
+.conveyor-fade--right {
+    right: 0;
+    background: linear-gradient(to left, #111111, transparent);
+}
+
+/* Responsive: tighter tiles on mobile */
+@media (max-width: 768px) {
+    .brand-tile {
+        width: 160px;
+    }
+    .brand-logo-wrap {
+        width: 140px;
+        height: 80px;
+        padding: 0.8rem 1rem;
+    }
+    .brands-title {
+        font-size: 2rem;
+    }
+    .conveyor-fade {
+        width: 60px;
+    }
+    /* Slightly faster on mobile so motion feels intentional */
+    .brands-track {
+        animation-duration: 28s;
+    }
 }
 
 /* Contact Section */
